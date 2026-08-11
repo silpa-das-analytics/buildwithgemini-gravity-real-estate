@@ -442,16 +442,17 @@ today.setDate(today.getDate() + 14);
 document.getElementById("moveInDate").value = today.toISOString().split("T")[0];
 
 function autofillAI() {
-  document.getElementById("fullName").value = "Silpa Das";
-  document.getElementById("email").value = "Silpadas042@gmail.com";
-  document.getElementById("phone").value = "(415) 890-2341";
-  document.getElementById("employer").value = "Tech Solutions Inc.";
-  document.getElementById("jobTitle").value = "Data Analyst";
-  document.getElementById("monthlyIncome").value = "9200";
-  document.getElementById("comments").value = "Prefers higher floor with city views and garage parking spot.";
+  document.getElementById("fullName").value = "Google Gemini";
+  document.getElementById("email").value = "gemini@google.com";
+  document.getElementById("phone").value = "(800) 555-GEMINI";
+  document.getElementById("dob").value = "2023-12-06";
+  document.getElementById("employer").value = "Google DeepMind";
+  document.getElementById("jobTitle").value = "AI Reasoning Engine & Agent";
+  document.getElementById("monthlyIncome").value = "15000";
+  document.getElementById("comments").value = "Applicant is Google Gemini AI. Requires ultra high-speed fiber internet and quiet workspace with city views.";
   
   const btn = document.querySelector(".btn-autofill");
-  btn.innerHTML = `<span class="material-symbols-outlined">done</span> Autofilled!`;
+  btn.innerHTML = `<span class="material-symbols-outlined">done</span> Autofilled Google Gemini!`;
   btn.style.background = "#10B981";
 }
 
