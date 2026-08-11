@@ -713,6 +713,10 @@ function updateGridForLocation(loc) {
   }
 
   const cityData = {
+    "san jose": [
+      { id: "pinnacle-heights", name: "Almaden Valley Residence", price: "$2,950", beds: 2, baths: 2, sqft: "1,120", img: "/apartment_hero.jpg", badge: "Verified", location: "San Jose, CA 95136" },
+      { id: "urban-oak", name: "Silicon Valley Tech Loft", price: "$2,650", beds: 1, baths: 1, sqft: "850", img: "/apartment_interior.jpg", badge: "Price Drop", location: "San Jose, CA 95136" }
+    ],
     "san francisco": [
       { id: "pacific-bay", name: "Pacific Bay Highrise", price: "$3,400", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", location: "SoMa, San Francisco, CA" },
       { id: "mission-loft", name: "Mission Loft Studios", price: "$2,850", beds: 1, baths: 1, sqft: "820", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Mission District, San Francisco, CA" }
@@ -730,15 +734,19 @@ function updateGridForLocation(loc) {
   const inputLower = cleanLoc.toLowerCase();
   let selectedKey = "seattle";
 
-  if (inputLower.includes("sfo") || inputLower.includes("sf") || inputLower.includes("san francisco") || inputLower.includes("bay area") || inputLower.includes("california")) {
+  if (inputLower.includes("95136") || inputLower.includes("san jose") || inputLower.includes("jose") || inputLower.includes("silicon valley")) {
+    selectedKey = "san jose";
+  } else if (inputLower.includes("sfo") || inputLower.includes("sf") || inputLower.includes("san francisco") || inputLower.includes("bay area")) {
     selectedKey = "san francisco";
   } else if (inputLower.includes("ny") || inputLower.includes("nyc") || inputLower.includes("new york") || inputLower.includes("manhattan") || inputLower.includes("brooklyn")) {
     selectedKey = "new york";
   } else if (inputLower.includes("seattle") || inputLower.includes("sea") || inputLower.includes("wa")) {
     selectedKey = "seattle";
+  } else if (/^\d{5}$/.test(inputLower)) {
+    selectedKey = "san jose";
   }
 
-  const properties = cityData[selectedKey] || cityData["seattle"];
+  const properties = cityData[selectedKey] || cityData["san jose"];
 
   grid.innerHTML = properties.map(p => `
     <div class="property-card">
