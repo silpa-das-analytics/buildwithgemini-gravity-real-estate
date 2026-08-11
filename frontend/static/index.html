@@ -732,21 +732,24 @@ function updateGridForLocation(loc) {
   };
 
   const inputLower = cleanLoc.toLowerCase();
-  let selectedKey = "seattle";
+  let properties = [];
 
   if (inputLower.includes("95136") || inputLower.includes("san jose") || inputLower.includes("jose") || inputLower.includes("silicon valley")) {
-    selectedKey = "san jose";
+    properties = cityData["san jose"];
   } else if (inputLower.includes("sfo") || inputLower.includes("sf") || inputLower.includes("san francisco") || inputLower.includes("bay area")) {
-    selectedKey = "san francisco";
+    properties = cityData["san francisco"];
   } else if (inputLower.includes("ny") || inputLower.includes("nyc") || inputLower.includes("new york") || inputLower.includes("manhattan") || inputLower.includes("brooklyn")) {
-    selectedKey = "new york";
+    properties = cityData["new york"];
   } else if (inputLower.includes("seattle") || inputLower.includes("sea") || inputLower.includes("wa")) {
-    selectedKey = "seattle";
-  } else if (/^\d{5}$/.test(inputLower)) {
-    selectedKey = "san jose";
+    properties = cityData["seattle"];
+  } else {
+    const isZip = /^\d{5}$/.test(cleanLoc);
+    const locLabel = isZip ? `ZIP ${cleanLoc}` : cleanLoc;
+    properties = [
+      { id: "pinnacle-heights", name: `${locLabel} Grand Plaza`, price: "$2,450", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", location: `${locLabel}` },
+      { id: "urban-oak", name: `${locLabel} Executive Terrace`, price: "$2,180", beds: 1, baths: 1, sqft: "880", img: "/apartment_interior.jpg", badge: "New Listing", location: `${locLabel}` }
+    ];
   }
-
-  const properties = cityData[selectedKey] || cityData["san jose"];
 
   grid.innerHTML = properties.map(p => `
     <div class="property-card">

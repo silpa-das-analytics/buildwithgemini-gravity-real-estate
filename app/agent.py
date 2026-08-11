@@ -98,16 +98,18 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=brooklyn-brick)\n"
         )
     else:
+        is_zip = loc_clean.isdigit() and len(loc_clean) == 5
+        loc_disp = f"ZIP {loc_clean}" if is_zip else loc_clean
         return (
-            f"Found 2 matching {bedrooms}-bedroom listing(s) in {loc_clean}{budget_str}{feat_str}:\n\n"
-            f"### 1. 🏢 {loc_clean} Grand Plaza Apartments\n"
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {loc_disp}{budget_str}{feat_str}:\n\n"
+            f"### 1. 🏢 {loc_disp} Grand Plaza Apartments\n"
             f"![Grand Plaza Preview](/apartment_hero.jpg)\n"
-            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,450/mo | Location: {loc_clean}\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,450/mo | Location: {loc_disp}\n"
             f"- **Amenities:** Pet Friendly, In-Unit Laundry, Fitness Center, Garage Parking\n"
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=pinnacle-heights)\n\n"
-            f"### 2. 🌿 {loc_clean} Terrace Residence\n"
+            f"### 2. 🌿 {loc_disp} Executive Terrace\n"
             f"![Terrace Residence Preview](/apartment_interior.jpg)\n"
-            f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,150/mo | Location: {loc_clean}\n"
+            f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,180/mo | Location: {loc_disp}\n"
             f"- **Amenities:** Balcony, Washer/Dryer, Pet Friendly, Storage Unit\n"
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=urban-oak)\n"
         )
