@@ -680,6 +680,7 @@ function toggleDrawer() {
 function triggerHeroSearch() {
   const val = heroInput && heroInput.value ? heroInput.value.trim() : "";
   if (val) {
+    updateGridForLocation(val);
     sendPrompt(val);
   } else {
     toggleDrawer();
@@ -691,6 +692,12 @@ if (heroInput) {
     if (ev.key === "Enter") {
       ev.preventDefault();
       triggerHeroSearch();
+    }
+  });
+  heroInput.addEventListener("input", (ev) => {
+    const val = ev.target.value.trim();
+    if (val.length >= 2) {
+      updateGridForLocation(val);
     }
   });
 }
@@ -720,8 +727,18 @@ function updateGridForLocation(loc) {
     ]
   };
 
-  const key = Object.keys(cityData).find(k => cleanLoc.toLowerCase().includes(k)) || "seattle";
-  const properties = cityData[key] || cityData["seattle"];
+  const inputLower = cleanLoc.toLowerCase();
+  let selectedKey = "seattle";
+
+  if (inputLower.includes("sfo") || inputLower.includes("sf") || inputLower.includes("san francisco") || inputLower.includes("bay area") || inputLower.includes("california")) {
+    selectedKey = "san francisco";
+  } else if (inputLower.includes("ny") || inputLower.includes("nyc") || inputLower.includes("new york") || inputLower.includes("manhattan") || inputLower.includes("brooklyn")) {
+    selectedKey = "new york";
+  } else if (inputLower.includes("seattle") || inputLower.includes("sea") || inputLower.includes("wa")) {
+    selectedKey = "seattle";
+  }
+
+  const properties = cityData[selectedKey] || cityData["seattle"];
 
   grid.innerHTML = properties.map(p => `
     <div class="property-card">
