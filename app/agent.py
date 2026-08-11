@@ -43,7 +43,7 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
         features: Optional comma-separated list of desired features/amenities (e.g. 'pet friendly, in-unit laundry, balcony').
 
     Returns:
-        A structured string with matching property listings, including thumbnail images and home page links.
+        A structured string with matching property listings, including thumbnail images and individual listing URLs.
     """
     if not location or location.strip().lower() in ["apartment", "rent", "search"]:
         return "ERROR: Location is required. Please specify a location or city."
@@ -52,20 +52,50 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
 
     feat_str = f" with features ({features})" if features else ""
     budget_str = f" under ${max_rent}/mo" if max_rent > 0 else ""
+    loc_lower = location.lower()
 
-    return (
-        f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
-        f"### 1. 🏢 The Pinnacle Heights\n"
-        f"![The Pinnacle Heights Preview](/apartment_hero.jpg)\n"
-        f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,400/mo | Location: {location}\n"
-        f"- **Amenities:** Pet Friendly, In-Unit Laundry, Fitness Center, Garage Parking\n"
-        f"- 🔗 [View Home Page Listing](http://localhost:8086/)\n\n"
-        f"### 2. 🌿 Urban Oak Apartments\n"
-        f"![Urban Oak Apartments Preview](/apartment_interior.jpg)\n"
-        f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,250/mo | Location: {location}\n"
-        f"- **Amenities:** Balcony, Washer/Dryer, Pet Friendly, Storage Unit\n"
-        f"- 🔗 [View Home Page Listing](http://localhost:8086/)\n"
-    )
+    if "san francisco" in loc_lower or "sf" in loc_lower:
+        return (
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
+            f"### 1. 🏢 Pacific Bay Highrise\n"
+            f"![Pacific Bay Highrise Preview](/apartment_hero.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $3,400/mo | Location: SoMa, San Francisco, CA\n"
+            f"- **Amenities:** Skyline Views, Heated Pool, Smart Home Tech, Concierge, Pet Spa\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=pacific-bay)\n\n"
+            f"### 2. 🌿 Mission Loft Studios\n"
+            f"![Mission Loft Studios Preview](/apartment_interior.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 1 Bath | Rent: $2,850/mo | Location: Mission District, San Francisco, CA\n"
+            f"- **Amenities:** Exposed Brick, High Ceilings, Gas Stove, Washer/Dryer, Courtyard\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=mission-loft)\n"
+        )
+    elif "new york" in loc_lower or "ny" in loc_lower or "manhattan" in loc_lower or "brooklyn" in loc_lower:
+        return (
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
+            f"### 1. 🏢 Manhattan Sky Suites\n"
+            f"![Manhattan Sky Suites Preview](/apartment_hero.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $3,800/mo | Location: Midtown, New York, NY\n"
+            f"- **Amenities:** Doorman 24/7, Central Park View, Fitness Club, Wine Storage\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=manhattan-sky)\n\n"
+            f"### 2. 🌿 Brooklyn Brick Loft\n"
+            f"![Brooklyn Brick Loft Preview](/apartment_interior.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 1 Bath | Rent: $3,100/mo | Location: Williamsburg, New York, NY\n"
+            f"- **Amenities:** Private Balcony, Rooftop Grill, Dishwasher, Pet Friendly\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=brooklyn-brick)\n"
+        )
+    else:
+        return (
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
+            f"### 1. 🏢 The Pinnacle Heights\n"
+            f"![The Pinnacle Heights Preview](/apartment_hero.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,400/mo | Location: Downtown {location}\n"
+            f"- **Amenities:** Pet Friendly, In-Unit Laundry, Fitness Center, Garage Parking\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=pinnacle-heights)\n\n"
+            f"### 2. 🌿 Urban Oak Apartments\n"
+            f"![Urban Oak Apartments Preview](/apartment_interior.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,250/mo | Location: Downtown {location}\n"
+            f"- **Amenities:** Balcony, Washer/Dryer, Pet Friendly, Storage Unit\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=urban-oak)\n"
+        )
 
 
 def calculate_commute(property_address: str, work_address: str) -> str:

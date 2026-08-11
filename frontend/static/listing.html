@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Details — GravityRealEstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+  :root {
+    --brand-red: #E61C24;
+    --brand-red-dark: #C1131A;
+    --brand-red-light: #FFEBEC;
+    --bg-dark: #0F172A;
+    --bg-light: #F8FAFC;
+    --surface-white: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --border-color: #E2E8F0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .brand-logo {
+    width: 34px; height: 34px;
+    background: var(--brand-red);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(230, 28, 36, 0.35);
+  }
+  .brand-title {
+    font-size: 1.25rem; font-weight: 800;
+    letter-spacing: -0.02em; color: var(--text-primary);
+  }
+  .brand-title span { color: var(--brand-red); }
+  .btn-back {
+    text-decoration: none; color: var(--text-secondary);
+    font-weight: 600; font-size: 0.9rem;
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .btn-back:hover { color: var(--brand-red); }
+
+  /* Gallery Banner */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.8rem;
+    max-width: 1240px;
+    margin: 1.5rem auto 0 auto;
+    padding: 0 1.5rem;
+    height: 420px;
+  }
+  .gallery-main {
+    height: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .gallery-main img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .gallery-side {
+    display: flex; flex-direction: column; gap: 0.8rem; height: 100%;
+  }
+  .gallery-sub {
+    flex: 1; border-radius: var(--radius-md); overflow: hidden;
+  }
+  .gallery-sub img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Content Grid */
+  .details-container {
+    max-width: 1240px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+
+  .prop-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+  .prop-name { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+  .prop-address { color: var(--text-secondary); display: flex; align-items: center; gap: 0.3rem; margin-top: 0.4rem; font-size: 1rem; }
+  .prop-price-box { text-align: right; }
+  .prop-price { font-size: 2.2rem; font-weight: 800; color: var(--brand-red); }
+  .prop-price span { font-size: 1rem; color: var(--text-secondary); font-weight: 400; }
+
+  .specs-bar {
+    display: flex; gap: 2rem; background: var(--surface-white);
+    padding: 1.2rem 1.5rem; border-radius: var(--radius-md);
+    border: 1px solid var(--border-color); margin-bottom: 1.8rem;
+  }
+  .spec-item { display: flex; flex-direction: column; }
+  .spec-val { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); }
+  .spec-lbl { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; }
+
+  .section-box {
+    background: var(--surface-white); border: 1px solid var(--border-color);
+    border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.8rem;
+  }
+  .section-h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); }
+  .amenities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.8rem; }
+  .amenity-chip { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); background: var(--bg-light); padding: 0.5rem 0.8rem; border-radius: var(--radius-sm); }
+
+  /* Sidebar Action Box */
+  .action-card {
+    position: sticky; top: 90px;
+    background: var(--surface-white); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); padding: 1.8rem;
+    box-shadow: var(--shadow-md);
+  }
+  .btn-apply-main {
+    width: 100%; background: var(--brand-red); color: #fff; text-decoration: none;
+    padding: 0.9rem; border-radius: var(--radius-md); font-weight: 700; font-size: 1.05rem;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    box-shadow: 0 4px 14px rgba(230, 28, 36, 0.35); margin-bottom: 0.8rem;
+    transition: background 0.2s;
+  }
+  .btn-apply-main:hover { background: var(--brand-red-dark); }
+
+  .btn-ask-listing {
+    width: 100%; background: var(--brand-red-light); color: var(--brand-red-dark);
+    border: 1px solid rgba(230, 28, 36, 0.3); padding: 0.8rem; border-radius: var(--radius-md);
+    font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  }
+
+  .agent-box {
+    margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--border-color);
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .agent-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .agent-info h5 { font-size: 0.95rem; font-weight: 700; }
+  .agent-info p { font-size: 0.8rem; color: var(--text-secondary); }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="brand">
+    <div class="brand-logo">G</div>
+    <div class="brand-title">Gravity<span>RealEstate</span></div>
+  </a>
+  <a href="/" class="btn-back">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Search
+  </a>
+</header>
+
+<!-- Gallery Banner -->
+<div class="gallery-grid">
+  <div class="gallery-main">
+    <img id="imgMain" src="/apartment_hero.jpg" alt="Property Hero">
+  </div>
+  <div class="gallery-side">
+    <div class="gallery-sub"><img id="imgSub1" src="/apartment_interior.jpg" alt="Interior 1"></div>
+    <div class="gallery-sub"><img id="imgSub2" src="/apartment_hero.jpg" alt="Interior 2"></div>
+  </div>
+</div>
+
+<!-- Main Details Grid -->
+<main class="details-container">
+  <div>
+    <div class="prop-header">
+      <div>
+        <h1 class="prop-name" id="propTitle">The Pinnacle Heights</h1>
+        <div class="prop-address">
+          <span class="material-symbols-outlined" style="color:var(--brand-red);">location_on</span>
+          <span id="propAddr">Downtown Seattle, WA</span>
+        </div>
+      </div>
+      <div class="prop-price-box">
+        <div class="prop-price" id="propPrice">$2,400 <span>/ mo</span></div>
+        <div style="font-size:0.85rem; color:var(--text-secondary);" id="propBadge">Verified Listing</div>
+      </div>
+    </div>
+
+    <!-- Specs Bar -->
+    <div class="specs-bar">
+      <div class="spec-item">
+        <div class="spec-val" id="specBeds">2 Beds</div>
+        <div class="spec-lbl">Bedrooms</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val" id="specBaths">2 Baths</div>
+        <div class="spec-lbl">Bathrooms</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val" id="specSqft">1,150 sqft</div>
+        <div class="spec-lbl">Square Feet</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-val" id="specTerm">12 Months</div>
+        <div class="spec-lbl">Lease Term</div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="section-box">
+      <h3 class="section-h3">About This Property</h3>
+      <p id="propDesc" style="color:var(--text-secondary); font-size:0.98rem; line-height:1.6;">
+        Welcome to your modern urban oasis! Featuring floor-to-ceiling windows with panoramic city views, hardwood flooring throughout, chef-inspired kitchen with quartz countertops and stainless steel appliances, and in-unit washer and dryer.
+      </p>
+    </div>
+
+    <!-- Amenities -->
+    <div class="section-box">
+      <h3 class="section-h3">Included Amenities</h3>
+      <div class="amenities-grid" id="amenitiesGrid">
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">pets</span> Pet Friendly</div>
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">local_laundry_service</span> In-Unit Laundry</div>
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">fitness_center</span> 24/7 Fitness Center</div>
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">directions_car</span> Garage Parking</div>
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">deck</span> Rooftop Terrace</div>
+        <div class="amenity-chip"><span class="material-symbols-outlined" style="color:var(--brand-red);">ev_station</span> EV Charging Station</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Action Card -->
+  <aside>
+    <div class="action-card">
+      <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:0.4rem;">Interested in this home?</h3>
+      <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:1.4rem;">Apply online in under 3 minutes or ask Gravity AI for custom commute & cost breakdowns.</p>
+
+      <a id="btnApply" href="/application.html" class="btn-apply-main">
+        <span class="material-symbols-outlined">assignment</span>
+        Apply Now for This Apartment
+      </a>
+
+      <button class="btn-ask-listing" onclick="askAIAboutProperty()">
+        <span class="material-symbols-outlined">auto_awesome</span>
+        Ask Gravity AI About This Home
+      </button>
+
+      <div class="agent-box">
+        <div class="agent-avatar">G</div>
+        <div class="agent-info">
+          <h5>Gravity AI Property Manager</h5>
+          <p>Verified Partner Listing</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script>
+// Catalog of sample apartments
+const propertyCatalog = {
+  "pinnacle-heights": {
+    name: "The Pinnacle Heights",
+    address: "Downtown Seattle, WA",
+    price: "$2,400",
+    beds: "2 Beds", baths: "2 Baths", sqft: "1,150 sqft", badge: "Verified Listing",
+    mainImg: "/apartment_hero.jpg", subImg1: "/apartment_interior.jpg", subImg2: "/apartment_hero.jpg",
+    desc: "Experience luxury living in the heart of Downtown Seattle. Features floor-to-ceiling city views, premium quartz countertops, private balcony, and 24/7 concierge service.",
+    amenities: ["Pet Friendly", "In-Unit Laundry", "Fitness Center", "Garage Parking", "Rooftop Terrace", "EV Charging"]
+  },
+  "urban-oak": {
+    name: "Urban Oak Apartments",
+    address: "Downtown Seattle, WA",
+    price: "$2,250",
+    beds: "2 Beds", baths: "1.5 Baths", sqft: "980 sqft", badge: "Price Drop",
+    mainImg: "/apartment_interior.jpg", subImg1: "/apartment_hero.jpg", subImg2: "/apartment_interior.jpg",
+    desc: "Charming contemporary apartment located minutes from top tech hubs. Offers open-concept living, energy-efficient appliances, serene courtyard, and dedicated bike storage.",
+    amenities: ["Balcony", "Washer/Dryer", "Pet Friendly", "Storage Unit", "Bike Room", "Courtyard"]
+  },
+  "pacific-bay": {
+    name: "Pacific Bay Highrise",
+    address: "SoMa, San Francisco, CA",
+    price: "$3,400",
+    beds: "2 Beds", baths: "2 Baths", sqft: "1,100 sqft", badge: "Verified Listing",
+    mainImg: "/apartment_hero.jpg", subImg1: "/apartment_interior.jpg", subImg2: "/apartment_hero.jpg",
+    desc: "Iconic San Francisco skyline views with luxury modern finishes, hardwood floors, smart thermostat control, and resort-style heated pool.",
+    amenities: ["Sky Skyline Views", "Heated Pool", "Smart Home Tech", "Concierge", "Pet Spa", "Valet Parking"]
+  },
+  "mission-loft": {
+    name: "Mission Loft Studios",
+    address: "Mission District, San Francisco, CA",
+    price: "$2,850",
+    beds: "1 Bed", baths: "1 Bath", sqft: "820 sqft", badge: "Price Drop",
+    mainImg: "/apartment_interior.jpg", subImg1: "/apartment_hero.jpg", subImg2: "/apartment_interior.jpg",
+    desc: "Artisan timber loft with soaring ceilings, exposed brick, oversized windows, and gourmet gas range kitchen.",
+    amenities: ["Exposed Brick", "High Ceilings", "Gas Stove", "In-Unit Laundry", "Courtyard", "Pet Friendly"]
+  },
+  "manhattan-sky": {
+    name: "Manhattan Sky Suites",
+    address: "Midtown, New York, NY",
+    price: "$3,800",
+    beds: "2 Beds", baths: "2 Baths", sqft: "1,050 sqft", badge: "Verified Listing",
+    mainImg: "/apartment_hero.jpg", subImg1: "/apartment_interior.jpg", subImg2: "/apartment_hero.jpg",
+    desc: "High-floor luxury residence in Midtown Manhattan with breathtaking Central Park glimpses, floor-to-ceiling glass, and marble baths.",
+    amenities: ["Doorman 24/7", "Central Park View", "Fitness Club", "Wine Storage", "In-Unit Washer", "Private Lounge"]
+  },
+  "brooklyn-brick": {
+    name: "Brooklyn Brick Loft",
+    address: "Williamsburg, New York, NY",
+    price: "$3,100",
+    beds: "1 Bed", baths: "1 Bath", sqft: "900 sqft", badge: "Popular Listing",
+    mainImg: "/apartment_interior.jpg", subImg1: "/apartment_hero.jpg", subImg2: "/apartment_interior.jpg",
+    desc: "Vibrant Williamsburg loft living with polished concrete floors, private balcony, stainless steel kitchen, and rooftop grill station.",
+    amenities: ["Private Balcony", "Rooftop Grill", "Polished Concrete", "Dishwasher", "Pet Friendly", "Package Room"]
+  }
+};
+
+// URL Query Param Parsing
+const urlParams = new URLSearchParams(window.location.search);
+const propId = urlParams.get("id") || "pinnacle-heights";
+const data = propertyCatalog[propId] || propertyCatalog["pinnacle-heights"];
+
+document.title = `${data.name} — GravityRealEstate`;
+document.getElementById("propTitle").textContent = data.name;
+document.getElementById("propAddr").textContent = data.address;
+document.getElementById("propPrice").innerHTML = `${data.price} <span>/ mo</span>`;
+document.getElementById("propBadge").textContent = data.badge;
+document.getElementById("specBeds").textContent = data.beds;
+document.getElementById("specBaths").textContent = data.baths;
+document.getElementById("specSqft").textContent = data.sqft;
+document.getElementById("propDesc").textContent = data.desc;
+document.getElementById("imgMain").src = data.mainImg;
+document.getElementById("imgSub1").src = data.subImg1;
+document.getElementById("imgSub2").src = data.subImg2;
+document.getElementById("btnApply").href = `/application.html?property=${encodeURIComponent(data.name)}`;
+
+document.getElementById("amenitiesGrid").innerHTML = data.amenities.map(a => `
+  <div class="amenity-chip">
+    <span class="material-symbols-outlined" style="color:var(--brand-red);">check_circle</span> ${a}
+  </div>
+`).join("");
+
+function askAIAboutProperty() {
+  window.location.href = `/?ask=${encodeURIComponent("Tell me about " + data.name + " listing in " + data.address)}`;
+}
+</script>
+
+</body>
+</html>

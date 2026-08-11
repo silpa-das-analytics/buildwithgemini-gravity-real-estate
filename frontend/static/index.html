@@ -707,33 +707,30 @@ function updateGridForLocation(loc) {
 
   const cityData = {
     "san francisco": [
-      { name: "Pacific Bay Highrise", price: "$3,400", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", location: "SoMa, San Francisco, CA" },
-      { name: "Mission Loft Studios", price: "$2,850", beds: 1, baths: 1, sqft: "820", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Mission District, San Francisco, CA" },
-      { name: "Nob Hill View Residence", price: "$3,950", beds: 2, baths: 2, sqft: "1,250", img: "/apartment_hero.jpg", badge: "Luxury", location: "Nob Hill, San Francisco, CA" }
+      { id: "pacific-bay", name: "Pacific Bay Highrise", price: "$3,400", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", location: "SoMa, San Francisco, CA" },
+      { id: "mission-loft", name: "Mission Loft Studios", price: "$2,850", beds: 1, baths: 1, sqft: "820", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Mission District, San Francisco, CA" }
     ],
     "new york": [
-      { name: "Manhattan Sky Suites", price: "$3,800", beds: 2, baths: 2, sqft: "1,050", img: "/apartment_hero.jpg", badge: "Verified", location: "Midtown, New York, NY" },
-      { name: "Brooklyn Brick Loft", price: "$3,100", beds: 1, baths: 1, sqft: "900", img: "/apartment_interior.jpg", badge: "Popular", location: "Williamsburg, New York, NY" }
+      { id: "manhattan-sky", name: "Manhattan Sky Suites", price: "$3,800", beds: 2, baths: 2, sqft: "1,050", img: "/apartment_hero.jpg", badge: "Verified", location: "Midtown, New York, NY" },
+      { id: "brooklyn-brick", name: "Brooklyn Brick Loft", price: "$3,100", beds: 1, baths: 1, sqft: "900", img: "/apartment_interior.jpg", badge: "Popular", location: "Williamsburg, New York, NY" }
     ],
     "seattle": [
-      { name: "The Pinnacle Heights", price: "$2,400", beds: 2, baths: 2, sqft: "1,150", img: "/apartment_hero.jpg", badge: "Verified", location: "Downtown Seattle, WA" },
-      { name: "Urban Oak Apartments", price: "$2,250", beds: 2, baths: 1.5, sqft: "980", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Downtown Seattle, WA" }
+      { id: "pinnacle-heights", name: "The Pinnacle Heights", price: "$2,400", beds: 2, baths: 2, sqft: "1,150", img: "/apartment_hero.jpg", badge: "Verified", location: "Downtown Seattle, WA" },
+      { id: "urban-oak", name: "Urban Oak Apartments", price: "$2,250", beds: 2, baths: 1.5, sqft: "980", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Downtown Seattle, WA" }
     ]
   };
 
-  const key = Object.keys(cityData).find(k => cleanLoc.toLowerCase().includes(k)) || "default";
-  const properties = cityData[key] || [
-    { name: `${cleanLoc} Grand Plaza`, price: "$2,450", beds: 2, baths: 2, sqft: "1,080", img: "/apartment_hero.jpg", badge: "Verified", location: `${cleanLoc}` },
-    { name: `${cleanLoc} Terrace Apartments`, price: "$2,150", beds: 1, baths: 1, sqft: "850", img: "/apartment_interior.jpg", badge: "New Listing", location: `${cleanLoc}` }
-  ];
+  const key = Object.keys(cityData).find(k => cleanLoc.toLowerCase().includes(k)) || "seattle";
+  const properties = cityData[key] || cityData["seattle"];
 
   grid.innerHTML = properties.map(p => `
     <div class="property-card">
       <div class="card-image-wrap">
-        <img src="${p.img}" alt="${p.name}" class="card-img">
+        <a href="/listing.html?id=${p.id}"><img src="${p.img}" alt="${p.name}" class="card-img"></a>
         <div class="card-badge ${p.badge === 'Price Drop' ? 'secondary' : ''}">${p.badge}</div>
       </div>
       <div class="card-body">
+        <a href="/listing.html?id=${p.id}" style="text-decoration:none; color:inherit;"><h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.4rem;">${p.name}</h3></a>
         <div class="card-price">${p.price} <span>/ mo</span></div>
         <div class="card-features">
           <span><strong>${p.beds}</strong> beds</span>
@@ -748,8 +745,8 @@ function updateGridForLocation(loc) {
           <button class="btn-card-ask" onclick="sendPrompt('Tell me more about ${p.name} listing in ${p.location}')">
             <span class="material-symbols-outlined">auto_awesome</span> Ask Gravity AI
           </button>
-          <a href="/application.html" class="btn-card-ask" style="background:var(--brand-red); color:#fff; text-decoration:none;">
-            <span class="material-symbols-outlined" style="color:#fff;">assignment</span> Apply Now
+          <a href="/listing.html?id=${p.id}" class="btn-card-ask" style="background:var(--brand-red); color:#fff; text-decoration:none;">
+            <span class="material-symbols-outlined" style="color:#fff;">open_in_new</span> Details
           </a>
         </div>
       </div>
@@ -883,14 +880,21 @@ function formatMarkdown(text) {
     return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--brand-red); font-weight:700; text-decoration:underline;">${label}</a>`;
   });
 
-  // 3. Format Headings ### Heading -> insert preview image & clickable home page link button
+  // 3. Format Headings ### Heading -> insert preview image & clickable individual detail page link button
   html = html.replace(/^###\s+(.*$)/gim, (match, title) => {
-    const isPinnacle = title.toLowerCase().includes("pinnacle");
-    const imgUrl = isPinnacle ? "/apartment_hero.jpg" : "/apartment_interior.jpg";
+    const lower = title.toLowerCase();
+    let propId = "pinnacle-heights";
+    let imgUrl = "/apartment_hero.jpg";
+    if (lower.includes("urban")) { propId = "urban-oak"; imgUrl = "/apartment_interior.jpg"; }
+    else if (lower.includes("pacific")) { propId = "pacific-bay"; imgUrl = "/apartment_hero.jpg"; }
+    else if (lower.includes("mission")) { propId = "mission-loft"; imgUrl = "/apartment_interior.jpg"; }
+    else if (lower.includes("manhattan")) { propId = "manhattan-sky"; imgUrl = "/apartment_hero.jpg"; }
+    else if (lower.includes("brooklyn")) { propId = "brooklyn-brick"; imgUrl = "/apartment_interior.jpg"; }
+
     return `<div style="margin: 14px 0 8px 0; padding: 12px; background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
       <h4 style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom: 6px;">${title}</h4>
       <img src="${imgUrl}" alt="${title}" style="max-width:100%; border-radius:8px; margin:6px 0; display:block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
-      <a href="http://localhost:8086/" target="_blank" rel="noopener" style="display:inline-block; background:var(--brand-red); color:#fff; font-weight:700; padding:6px 14px; border-radius:20px; text-decoration:none; margin-top:6px; font-size:0.85rem; box-shadow: 0 2px 8px rgba(230,28,36,0.3);">🔗 View Property on Home Page</a>
+      <a href="/listing.html?id=${propId}" target="_blank" rel="noopener" style="display:inline-block; background:var(--brand-red); color:#fff; font-weight:700; padding:6px 14px; border-radius:20px; text-decoration:none; margin-top:6px; font-size:0.85rem; box-shadow: 0 2px 8px rgba(230,28,36,0.3);">🔗 View Apartment Details Page</a>
     </div>`;
   });
 
