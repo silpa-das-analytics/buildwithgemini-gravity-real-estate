@@ -714,20 +714,20 @@ function updateGridForLocation(loc) {
 
   const cityData = {
     "san jose": [
-      { id: "pinnacle-heights", name: "Almaden Valley Residence", price: "$2,950", beds: 2, baths: 2, sqft: "1,120", img: "/apartment_hero.jpg", badge: "Verified", location: "San Jose, CA 95136" },
-      { id: "urban-oak", name: "Silicon Valley Tech Loft", price: "$2,650", beds: 1, baths: 1, sqft: "850", img: "/apartment_interior.jpg", badge: "Price Drop", location: "San Jose, CA 95136" }
+      { id: "pinnacle-heights", name: "Almaden Valley Residence", price: "$2,950", beds: 2, baths: 2, sqft: "1,120", img: "/apartment_hero.jpg", badge: "Verified", match: "⚡ 96% Match", location: "San Jose, CA 95136" },
+      { id: "urban-oak", name: "Silicon Valley Tech Loft", price: "$2,650", beds: 1, baths: 1, sqft: "850", img: "/apartment_interior.jpg", badge: "Price Drop", match: "⚡ 91% Match", location: "San Jose, CA 95136" }
     ],
     "san francisco": [
-      { id: "pacific-bay", name: "Pacific Bay Highrise", price: "$3,400", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", location: "SoMa, San Francisco, CA" },
-      { id: "mission-loft", name: "Mission Loft Studios", price: "$2,850", beds: 1, baths: 1, sqft: "820", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Mission District, San Francisco, CA" }
+      { id: "pacific-bay", name: "Pacific Bay Highrise", price: "$3,400", beds: 2, baths: 2, sqft: "1,100", img: "/apartment_hero.jpg", badge: "Verified", match: "⚡ 98% Match", location: "SoMa, San Francisco, CA" },
+      { id: "mission-loft", name: "Mission Loft Studios", price: "$2,850", beds: 1, baths: 1, sqft: "820", img: "/apartment_interior.jpg", badge: "Price Drop", match: "⚡ 89% Match", location: "Mission District, San Francisco, CA" }
     ],
     "new york": [
-      { id: "manhattan-sky", name: "Manhattan Sky Suites", price: "$3,800", beds: 2, baths: 2, sqft: "1,050", img: "/apartment_hero.jpg", badge: "Verified", location: "Midtown, New York, NY" },
-      { id: "brooklyn-brick", name: "Brooklyn Brick Loft", price: "$3,100", beds: 1, baths: 1, sqft: "900", img: "/apartment_interior.jpg", badge: "Popular", location: "Williamsburg, New York, NY" }
+      { id: "manhattan-sky", name: "Manhattan Sky Suites", price: "$3,800", beds: 2, baths: 2, sqft: "1,050", img: "/apartment_hero.jpg", badge: "Verified", match: "⚡ 95% Match", location: "Midtown, New York, NY" },
+      { id: "brooklyn-brick", name: "Brooklyn Brick Loft", price: "$3,100", beds: 1, baths: 1, sqft: "900", img: "/apartment_interior.jpg", badge: "Popular", match: "⚡ 92% Match", location: "Williamsburg, New York, NY" }
     ],
     "seattle": [
-      { id: "pinnacle-heights", name: "The Pinnacle Heights", price: "$2,400", beds: 2, baths: 2, sqft: "1,150", img: "/apartment_hero.jpg", badge: "Verified", location: "Downtown Seattle, WA" },
-      { id: "urban-oak", name: "Urban Oak Apartments", price: "$2,250", beds: 2, baths: 1.5, sqft: "980", img: "/apartment_interior.jpg", badge: "Price Drop", location: "Downtown Seattle, WA" }
+      { id: "pinnacle-heights", name: "The Pinnacle Heights", price: "$2,400", beds: 2, baths: 2, sqft: "1,150", img: "/apartment_hero.jpg", badge: "Verified", match: "⚡ 96% Match", location: "Downtown Seattle, WA" },
+      { id: "urban-oak", name: "Urban Oak Apartments", price: "$2,250", beds: 2, baths: 1.5, sqft: "980", img: "/apartment_interior.jpg", badge: "Price Drop", match: "⚡ 91% Match", location: "Downtown Seattle, WA" }
     ]
   };
 
@@ -756,6 +756,7 @@ function updateGridForLocation(loc) {
       <div class="card-image-wrap">
         <a href="/listing.html?id=${p.id}"><img src="${p.img}" alt="${p.name}" class="card-img"></a>
         <div class="card-badge ${p.badge === 'Price Drop' ? 'secondary' : ''}">${p.badge}</div>
+        <div class="card-badge" style="top: auto; bottom: 12px; left: 12px; background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight:700;">${p.match || '⚡ 95% Match'}</div>
       </div>
       <div class="card-body">
         <a href="/listing.html?id=${p.id}" style="text-decoration:none; color:inherit;"><h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.4rem;">${p.name}</h3></a>
@@ -901,6 +902,11 @@ function formatMarkdown(text) {
   // 1. Format markdown images: ![alt](url)
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
     return `<img src="${url}" alt="${alt}" style="max-width:100%; border-radius:10px; margin:10px 0; display:block; box-shadow: 0 4px 14px rgba(0,0,0,0.15); border: 1px solid #E2E8F0;" />`;
+  });
+
+  // Preference Match Score formatting: ⚡ XX% Match with Your Preferences
+  html = html.replace(/⚡\s*\*\*?(\d+%\s*Match[^*\n]*)\*\*?/gi, (match, matchText) => {
+    return `<div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #10B981, #059669); color:#fff; font-weight:700; font-size:0.82rem; padding:4px 12px; border-radius:20px; box-shadow:0 2px 8px rgba(16,185,129,0.3); margin:6px 0;">⚡ ${matchText}</div>`;
   });
 
   // 2. Format markdown links: [label](url)
