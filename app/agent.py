@@ -37,7 +37,7 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
     """Searches available rental property listings based on location, bedrooms, max rent, and features.
 
     Args:
-        location: The city or neighborhood to search in (e.g. 'Downtown Seattle', 'San Francisco', 'New York').
+        location: The city, neighborhood, or ZIP code to search in (e.g. '95136', 'Downtown Seattle', 'San Francisco', 'New York').
         bedrooms: The required number of bedrooms (must be specified).
         max_rent: Optional maximum monthly budget in USD.
         features: Optional comma-separated list of desired features/amenities (e.g. 'pet friendly, in-unit laundry, balcony').
@@ -46,17 +46,32 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
         A structured string with matching property listings, including thumbnail images and individual listing URLs.
     """
     if not location or location.strip().lower() in ["apartment", "rent", "search"]:
-        return "ERROR: Location is required. Please specify a location or city."
+        return "ERROR: Location is required. Please specify a location, city, or ZIP code."
     if bedrooms <= 0:
         return "ERROR: Number of bedrooms is required. Please specify how many bedrooms you need."
 
     feat_str = f" with features ({features})" if features else ""
     budget_str = f" under ${max_rent}/mo" if max_rent > 0 else ""
-    loc_lower = location.lower()
+    loc_clean = location.strip()
+    loc_lower = loc_clean.lower()
 
-    if "san francisco" in loc_lower or "sf" in loc_lower:
+    if "95136" in loc_lower or "san jose" in loc_lower:
         return (
-            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in ZIP {loc_clean} (San Jose, CA):\n\n"
+            f"### 1. 🏢 Almaden Valley Residence\n"
+            f"![Almaden Valley Residence Preview](/apartment_hero.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,950/mo | Location: San Jose, CA 95136\n"
+            f"- **Amenities:** Swimming Pool, In-Unit Laundry, Covered Parking, Pet Friendly\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=pinnacle-heights)\n\n"
+            f"### 2. 🌿 Silicon Valley Tech Loft\n"
+            f"![Silicon Valley Tech Loft Preview](/apartment_interior.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 1 Bath | Rent: $2,650/mo | Location: San Jose, CA 95136\n"
+            f"- **Amenities:** High-Speed Fiber, EV Charging, Balcony, Fitness Center\n"
+            f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=urban-oak)\n"
+        )
+    elif "san francisco" in loc_lower or "sf" in loc_lower or "sfo" in loc_lower or "941" in loc_lower:
+        return (
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {loc_clean}{budget_str}{feat_str}:\n\n"
             f"### 1. 🏢 Pacific Bay Highrise\n"
             f"![Pacific Bay Highrise Preview](/apartment_hero.jpg)\n"
             f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $3,400/mo | Location: SoMa, San Francisco, CA\n"
@@ -68,9 +83,9 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
             f"- **Amenities:** Exposed Brick, High Ceilings, Gas Stove, Washer/Dryer, Courtyard\n"
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=mission-loft)\n"
         )
-    elif "new york" in loc_lower or "ny" in loc_lower or "manhattan" in loc_lower or "brooklyn" in loc_lower:
+    elif "new york" in loc_lower or "ny" in loc_lower or "nyc" in loc_lower or "100" in loc_lower:
         return (
-            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {loc_clean}{budget_str}{feat_str}:\n\n"
             f"### 1. 🏢 Manhattan Sky Suites\n"
             f"![Manhattan Sky Suites Preview](/apartment_hero.jpg)\n"
             f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $3,800/mo | Location: Midtown, New York, NY\n"
@@ -84,15 +99,15 @@ def search_listings(location: str, bedrooms: int, max_rent: int = 0, features: s
         )
     else:
         return (
-            f"Found 2 matching {bedrooms}-bedroom listing(s) in {location}{budget_str}{feat_str}:\n\n"
-            f"### 1. 🏢 The Pinnacle Heights\n"
-            f"![The Pinnacle Heights Preview](/apartment_hero.jpg)\n"
-            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,400/mo | Location: Downtown {location}\n"
+            f"Found 2 matching {bedrooms}-bedroom listing(s) in {loc_clean}{budget_str}{feat_str}:\n\n"
+            f"### 1. 🏢 {loc_clean} Grand Plaza Apartments\n"
+            f"![Grand Plaza Preview](/apartment_hero.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 2 Bath | Rent: $2,450/mo | Location: {loc_clean}\n"
             f"- **Amenities:** Pet Friendly, In-Unit Laundry, Fitness Center, Garage Parking\n"
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=pinnacle-heights)\n\n"
-            f"### 2. 🌿 Urban Oak Apartments\n"
-            f"![Urban Oak Apartments Preview](/apartment_interior.jpg)\n"
-            f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,250/mo | Location: Downtown {location}\n"
+            f"### 2. 🌿 {loc_clean} Terrace Residence\n"
+            f"![Terrace Residence Preview](/apartment_interior.jpg)\n"
+            f"- **Details:** {bedrooms} Bed / 1.5 Bath | Rent: $2,150/mo | Location: {loc_clean}\n"
             f"- **Amenities:** Balcony, Washer/Dryer, Pet Friendly, Storage Unit\n"
             f"- 🔗 [View Apartment Details](http://localhost:8086/listing.html?id=urban-oak)\n"
         )
