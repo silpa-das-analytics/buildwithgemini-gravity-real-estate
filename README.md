@@ -1,94 +1,82 @@
-# simple-agent
+# GravityRealEstate 🏡🤖
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `1.2.1`
+An AI-powered rental property and real estate discovery web application built with the **Google Agent Development Kit (ADK)**, **Gemini 3.6 Flash**, **Vertex AI Memory Bank**, and **FastAPI**.
 
-## Project Structure
-
-```
-simple-agent/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   ├── fast_api_app.py        # FastAPI Backend server
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
-```
-
-> 💡 **Tip:** Use [Antigravity CLI](https://antigravity.google/) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
-
-## Requirements
-
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
-
-
-## Quick Start
-
-Install `agents-cli` and its skills if not already installed:
-
-```bash
-uvx google-agents-cli setup
-```
-
-Install required packages:
-
-```bash
-agents-cli install
-```
-
-Test the agent with a local web server:
-
-```bash
-agents-cli playground
-```
-
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        |
-| `agents-cli deploy`  | Deploy agent to Agent Runtime                                                                |
-| `agents-cli publish gemini-enterprise` | Register deployed agent to Gemini Enterprise                    || [A2A Inspector](https://github.com/a2aproject/a2a-inspector) | Launch A2A Protocol Inspector                                                        |
-
-## 🛠️ Project Management
-
-| Command | What It Does |
-|---------|--------------|
-| `agents-cli scaffold enhance` | Add CI/CD pipelines and Terraform infrastructure |
-| `agents-cli infra cicd` | One-command setup of entire CI/CD pipeline + infrastructure |
-| `agents-cli scaffold upgrade` | Auto-upgrade to latest version while preserving customizations |
+[![GitHub Repository](https://img.shields.io/badge/GitHub-GravityRealEstate-blue?logo=github)](https://github.com/silpa-das-analytics/buildwithgemini-gravity-real-estate)
+[![Framework](https://img.shields.io/badge/Framework-Google%20ADK-red)](https://adk.dev/)
+[![Deployment](https://img.shields.io/badge/Deployment-Vertex%20AI%20Agent%20Runtime-green)](https://cloud.google.com/vertex-ai)
 
 ---
 
-## Development
+## 📖 Overview
 
-Edit your agent logic in `app/agent.py` and test with `agents-cli playground` - it auto-reloads on save.
+**GravityRealEstate** simplifies rental search by replacing complex filters with a conversational, location-aware AI Assistant. It remembers user budget preferences across sessions using Vertex AI Memory Bank, calculates exact workplace commute times, breaks down itemized monthly housing expenses, and dynamically renders visual property cards with direct clickable links.
 
-## Deployment
+---
 
-```bash
-gcloud config set project <your-project-id>
-agents-cli deploy
+## ✨ Features
+
+- 📍 **Location-Customized Search**: Tailors all follow-up questions, amenity suggestions, and neighborhood details around the user's requested city.
+- 🧠 **Vertex AI Memory Bank**: Persists user preferences (max budget, required bedrooms, commute destinations) across sessions.
+- 🖼️ **Visual Property Cards & Thumbnail Previews**: Renders high-resolution rental photography and clickable listing links directly inside the chat drawer.
+- 🚗 **Commute & Expense Tools**: Includes custom function tools for transit/drive time estimation (`calculate_commute`) and total housing cost calculations (`calculate_monthly_cost`).
+- 🎨 **Redfin-Inspired Modern UI**: Dynamic property cards grid, hero search bar with Enter key submit support, quick filter pills, and slide-out AI Assistant drawer.
+
+---
+
+## 🛠️ Project Structure
+
+```
+gravity-real-estate/
+├── app/                        # Core agent logic
+│   ├── agent.py                # Tools (search_listings, calculate_commute, calculate_monthly_cost) & instruction
+│   ├── fast_api_app.py         # ADK FastAPI App runner
+│   └── app_utils/
+│       └── services.py         # Vertex AI Memory Bank Service registration
+├── frontend/                   # Web Application
+│   ├── main.py                 # FastAPI A2A Proxy server
+│   └── static/
+│       ├── index.html          # Redfin-inspired UI with A2UI Card renderer & Markdown parser
+│       ├── apartment_hero.jpg   # High-resolution property photography
+│       └── apartment_interior.jpg
+├── agents-cli-manifest.yaml    # Deployment manifest
+├── pyproject.toml              # Project dependencies & package config
+└── README.md
 ```
 
-To add CI/CD and Terraform, run `agents-cli scaffold enhance`.
-To set up your production infrastructure, run `agents-cli infra cicd`.
+---
 
-## Observability
+## 🚀 Local Quickstart
 
-Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.
+### 1. Install Dependencies
+```bash
+uv sync
+```
 
-## A2A Inspector
+### 2. Run the Web Application
+```bash
+export AGENT_ENGINE_RESOURCE_NAME="projects/496623271873/locations/us-east1/reasoningEngines/254682077365010432"
+export AGENT_DIRECTORY="app"
+export PORT=8086
 
-This agent supports the [A2A Protocol](https://a2a-protocol.org/). Use the [A2A Inspector](https://github.com/a2aproject/a2a-inspector) to test interoperability.
-See the [A2A Inspector docs](https://github.com/a2aproject/a2a-inspector) for details.
+cd frontend
+uv run python main.py
+```
+Open **`http://localhost:8086`** in your web browser.
+
+---
+
+## ☁️ Deployment
+
+Deploy the agent to **Vertex AI Agent Runtime** using `agents-cli`:
+
+```bash
+agents-cli deploy --no-confirm-project
+```
+
+---
+
+## 🔗 Public Repository
+
+Published on GitHub:
+👉 **[github.com/silpa-das-analytics/buildwithgemini-gravity-real-estate](https://github.com/silpa-das-analytics/buildwithgemini-gravity-real-estate)**
