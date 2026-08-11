@@ -536,14 +536,8 @@
     <li><a href="#">Rent</a></li>
     <li><a href="#">Sell</a></li>
     <li><a href="#">Mortgage</a></li>
-    <li><a href="#">Saved Homes</a></li>
+    <li><a href="/application.html" style="color:var(--brand-red); font-weight:700;">📄 Apply Now</a></li>
   </ul>
-  <div class="nav-actions">
-    <button class="btn-ai-trigger" onclick="toggleDrawer()">
-      <span class="material-symbols-outlined" style="color:#fff;">auto_awesome</span>
-      Gravity AI Assistant
-    </button>
-  </div>
 </header>
 
 <!-- Hero Section -->
@@ -598,6 +592,9 @@
           <button class="btn-card-ask" onclick="sendPrompt('Tell me more about The Pinnacle Heights 2 bedroom listing in Downtown Seattle')">
             <span class="material-symbols-outlined">auto_awesome</span> Ask Gravity AI
           </button>
+          <a href="/application.html" class="btn-card-ask" style="background:var(--brand-red); color:#fff; text-decoration:none;">
+            <span class="material-symbols-outlined" style="color:#fff;">assignment</span> Apply Now
+          </a>
         </div>
       </div>
     </div>
@@ -623,6 +620,9 @@
           <button class="btn-card-ask" onclick="sendPrompt('Calculate total monthly cost and commute for Urban Oak Apartments in Downtown Seattle')">
             <span class="material-symbols-outlined">auto_awesome</span> Ask Gravity AI
           </button>
+          <a href="/application.html" class="btn-card-ask" style="background:var(--brand-red); color:#fff; text-decoration:none;">
+            <span class="material-symbols-outlined" style="color:#fff;">assignment</span> Apply Now
+          </a>
         </div>
       </div>
     </div>
@@ -748,6 +748,9 @@ function updateGridForLocation(loc) {
           <button class="btn-card-ask" onclick="sendPrompt('Tell me more about ${p.name} listing in ${p.location}')">
             <span class="material-symbols-outlined">auto_awesome</span> Ask Gravity AI
           </button>
+          <a href="/application.html" class="btn-card-ask" style="background:var(--brand-red); color:#fff; text-decoration:none;">
+            <span class="material-symbols-outlined" style="color:#fff;">assignment</span> Apply Now
+          </a>
         </div>
       </div>
     </div>
@@ -870,23 +873,31 @@ function formatMarkdown(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // Format images: ![alt](url)
+  // 1. Format markdown images: ![alt](url)
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
     return `<img src="${url}" alt="${alt}" style="max-width:100%; border-radius:10px; margin:10px 0; display:block; box-shadow: 0 4px 14px rgba(0,0,0,0.15); border: 1px solid #E2E8F0;" />`;
   });
 
-  // Format links: [label](url)
+  // 2. Format markdown links: [label](url)
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
     return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--brand-red); font-weight:700; text-decoration:underline;">${label}</a>`;
   });
 
-  // Format Headings ### Heading
-  html = html.replace(/^### (.*$)/gim, '<h4 style="font-size:1.05rem; font-weight:700; margin:12px 0 6px 0; color:var(--text-primary);">$1</h4>');
+  // 3. Format Headings ### Heading -> insert preview image & clickable home page link button
+  html = html.replace(/^###\s+(.*$)/gim, (match, title) => {
+    const isPinnacle = title.toLowerCase().includes("pinnacle");
+    const imgUrl = isPinnacle ? "/apartment_hero.jpg" : "/apartment_interior.jpg";
+    return `<div style="margin: 14px 0 8px 0; padding: 12px; background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+      <h4 style="font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom: 6px;">${title}</h4>
+      <img src="${imgUrl}" alt="${title}" style="max-width:100%; border-radius:8px; margin:6px 0; display:block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
+      <a href="http://localhost:8086/" target="_blank" rel="noopener" style="display:inline-block; background:var(--brand-red); color:#fff; font-weight:700; padding:6px 14px; border-radius:20px; text-decoration:none; margin-top:6px; font-size:0.85rem; box-shadow: 0 2px 8px rgba(230,28,36,0.3);">🔗 View Property on Home Page</a>
+    </div>`;
+  });
 
-  // Format Bold **text**
+  // 4. Format Bold **text**
   html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
-  // Format Newlines
+  // 5. Format Newlines
   html = html.replace(/\n/g, '<br>');
 
   return html;

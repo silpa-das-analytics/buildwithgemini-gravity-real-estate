@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartment Rental Application — GravityRealEstate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+  :root {
+    --brand-red: #E61C24;
+    --brand-red-dark: #C1131A;
+    --brand-red-light: #FFEBEC;
+    --bg-dark: #0F172A;
+    --bg-light: #F8FAFC;
+    --surface-white: #FFFFFF;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --border-color: #E2E8F0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+    background: var(--brand-red);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 8px rgba(230, 28, 36, 0.35);
+  }
+  .brand-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+  .brand-title span { color: var(--brand-red); }
+  .btn-back {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.15s;
+  }
+  .btn-back:hover { color: var(--brand-red); }
+
+  /* Main Container */
+  .container {
+    max-width: 800px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+  }
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .page-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+  .page-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: 0.4rem;
+  }
+
+  /* AI Memory Banner */
+  .ai-banner {
+    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+    color: #fff;
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md);
+  }
+  .ai-banner-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .ai-banner-text h4 { font-weight: 700; font-size: 1rem; }
+  .ai-banner-text p { font-size: 0.85rem; color: var(--text-muted); }
+  .btn-autofill {
+    background: var(--brand-red);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 12px rgba(230, 28, 36, 0.4);
+    transition: transform 0.2s;
+  }
+  .btn-autofill:hover { transform: scale(1.03); }
+
+  /* Application Form Card */
+  .form-card {
+    background: var(--surface-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .form-section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--brand-red-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #fff;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 3px var(--brand-red-light);
+  }
+
+  .btn-submit-app {
+    width: 100%;
+    background: var(--brand-red);
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(230, 28, 36, 0.35);
+    transition: background 0.2s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn-submit-app:hover {
+    background: var(--brand-red-dark);
+    transform: translateY(-1px);
+  }
+
+  /* Success Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 520px;
+    padding: 2.2rem;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .success-icon {
+    width: 64px; height: 64px;
+    background: #DEF7EC;
+    color: #03543F;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.2rem auto;
+  }
+  .modal-h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .modal-p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .btn-modal-close {
+    background: var(--brand-red);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.8rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="brand">
+    <div class="brand-logo">G</div>
+    <div class="brand-title">Gravity<span>RealEstate</span></div>
+  </a>
+  <a href="/" class="btn-back">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Back to Home
+  </a>
+</header>
+
+<main class="container">
+  <div class="page-header">
+    <h1 class="page-title">Apartment Rental Application</h1>
+    <p class="page-sub">Complete your paperwork online and lock in your new home instantly.</p>
+  </div>
+
+  <div class="ai-banner">
+    <div class="ai-banner-info">
+      <span class="material-symbols-outlined" style="color:var(--brand-red); font-size:1.8rem;">auto_awesome</span>
+      <div class="ai-banner-text">
+        <h4>Gravity AI Memory Sync</h4>
+        <p>Autofill your application details from your saved AI preferences</p>
+      </div>
+    </div>
+    <button class="btn-autofill" onclick="autofillAI()">
+      <span class="material-symbols-outlined">bolt</span>
+      Autofill via AI
+    </button>
+  </div>
+
+  <form class="form-card" id="appForm" onsubmit="submitApplication(event)">
+    
+    <!-- Section 1: Property Selection -->
+    <div class="form-section-title">
+      <span class="material-symbols-outlined" style="color:var(--brand-red);">apartment</span>
+      Property Selection
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="property">Select Property Listing *</label>
+        <select id="property" required>
+          <option value="The Pinnacle Heights — Downtown Seattle ($2,400/mo)">The Pinnacle Heights — Downtown Seattle ($2,400/mo)</option>
+          <option value="Urban Oak Apartments — Downtown Seattle ($2,250/mo)">Urban Oak Apartments — Downtown Seattle ($2,250/mo)</option>
+          <option value="Pacific Bay Highrise — San Francisco ($3,400/mo)">Pacific Bay Highrise — San Francisco ($3,400/mo)</option>
+          <option value="Manhattan Sky Suites — New York ($3,800/mo)">Manhattan Sky Suites — New York ($3,800/mo)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="moveInDate">Target Move-In Date *</label>
+        <input type="date" id="moveInDate" required>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="leaseTerm">Preferred Lease Term *</label>
+        <select id="leaseTerm" required>
+          <option value="12 Months">12 Months (Standard)</option>
+          <option value="18 Months">18 Months</option>
+          <option value="6 Months">6 Months</option>
+          <option value="Month-to-Month">Month-to-Month</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="occupants">Number of Occupants *</label>
+        <input type="number" id="occupants" value="1" min="1" max="6" required>
+      </div>
+    </div>
+
+    <!-- Section 2: Applicant Information -->
+    <div class="form-section-title">
+      <span class="material-symbols-outlined" style="color:var(--brand-red);">person</span>
+      Applicant Information
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="fullName">Full Legal Name *</label>
+        <input type="text" id="fullName" placeholder="e.g. Jane Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" placeholder="jane@example.com" required>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" placeholder="(555) 000-0000" required>
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" required>
+      </div>
+    </div>
+
+    <!-- Section 3: Financial & Employment -->
+    <div class="form-section-title">
+      <span class="material-symbols-outlined" style="color:var(--brand-red);">work</span>
+      Employment & Monthly Income
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="employer">Current Employer / Company *</label>
+        <input type="text" id="employer" placeholder="Company Name" required>
+      </div>
+      <div class="form-group">
+        <label for="jobTitle">Job Title *</label>
+        <input type="text" id="jobTitle" placeholder="Software Engineer / Specialist" required>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="monthlyIncome">Gross Monthly Income ($) *</label>
+        <input type="number" id="monthlyIncome" placeholder="8500" required>
+      </div>
+      <div class="form-group">
+        <label for="hasPets">Do you have pets?</label>
+        <select id="hasPets">
+          <option value="No">No Pets</option>
+          <option value="Dog">Dog(s)</option>
+          <option value="Cat">Cat(s)</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Section 4: Verification & Terms -->
+    <div class="form-section-title">
+      <span class="material-symbols-outlined" style="color:var(--brand-red);">verified_user</span>
+      Application Review & Consent
+    </div>
+    <div class="grid-1">
+      <div class="form-group">
+        <label for="comments">Additional Notes / Special Requirements</label>
+        <textarea id="comments" rows="3" placeholder="Mention parking requests, pet details, or preferred floor location..."></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit-app">
+      <span class="material-symbols-outlined">send</span>
+      Submit Rental Application
+    </button>
+  </form>
+</main>
+
+<!-- Success Confirmation Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-card">
+    <div class="success-icon">
+      <span class="material-symbols-outlined" style="font-size:36px;">check_circle</span>
+    </div>
+    <h2 class="modal-h2">Application Submitted!</h2>
+    <p class="modal-p">Your rental application for <strong id="modalProp">The Pinnacle Heights</strong> has been successfully received and submitted to GravityRealEstate property management.</p>
+    <a href="/" class="btn-modal-close">Return to Home Page</a>
+  </div>
+</div>
+
+<script>
+// Set default target move-in date to 30 days from today
+const today = new Date();
+today.setDate(today.getDate() + 14);
+document.getElementById("moveInDate").value = today.toISOString().split("T")[0];
+
+function autofillAI() {
+  document.getElementById("fullName").value = "Silpa Das";
+  document.getElementById("email").value = "Silpadas042@gmail.com";
+  document.getElementById("phone").value = "(415) 890-2341";
+  document.getElementById("employer").value = "Tech Solutions Inc.";
+  document.getElementById("jobTitle").value = "Data Analyst";
+  document.getElementById("monthlyIncome").value = "9200";
+  document.getElementById("comments").value = "Prefers higher floor with city views and garage parking spot.";
+  
+  const btn = document.querySelector(".btn-autofill");
+  btn.innerHTML = `<span class="material-symbols-outlined">done</span> Autofilled!`;
+  btn.style.background = "#10B981";
+}
+
+function submitApplication(ev) {
+  ev.preventDefault();
+  const selectedProp = document.getElementById("property").value;
+  document.getElementById("modalProp").textContent = selectedProp.split("—")[0].trim();
+  document.getElementById("successModal").classList.add("open");
+}
+</script>
+
+</body>
+</html>
